@@ -3,7 +3,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 import ContactForm from './components/ContactForm/ContactForm';
-import Filter from './components/Filter/Filter'
+import Filter from './components/Filter/Filter';
+import ContactList from './components/Filter/Filter'
+
 
 
 class App extends Component {
@@ -48,6 +50,21 @@ class App extends Component {
     this.setState({filter: value})
   }
 
+  deleteContact = contactId => {
+    this.setState(({ contacts }) => ({
+      contacts: contacts.filter(contact => contact.id !== contactId),
+    }));
+  }
+
+  filterContacts = () => {
+    const {filter, contacts} = this.state;
+    const searchName = filter.toLowerCase();
+    return contacts.filter(({name}) =>
+     name.toLowerCase().includes(searchName),)
+
+  }
+
+
 
   render() {
     const {filter} = this.state;
@@ -57,7 +74,9 @@ class App extends Component {
         <ContactForm onSubmit={this.addContact}/>
         <h2>Contacts</h2>
         <Filter value={filter} onChange={this.changeFilter} />
-        <ContactList />
+        <ContactList 
+        onDeleteContact={this.deleteContact}
+        filterContacts= {this.filterContacts}/>
       </div>
       
     );
