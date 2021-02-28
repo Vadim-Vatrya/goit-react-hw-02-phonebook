@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 
 import shortId from 'shortid';
 
-import ContactForm from './components/ContactForm/ContactForm';
-import ContactList from './components/ContactList/ContactList';
-import Filter from './components/Filter/Filter';
+import ContactForm from './components/ContactForm';
+import ContactList from './components/ContactList';
+import Filter from './components/Filter';
+import Container from './components/Container';
 
 class App extends Component {
   state = {
@@ -61,7 +62,7 @@ class App extends Component {
     const { filter } = this.state;
     const filteredContacts = this.getFilteredContacts();
     return (
-      <div>
+      <Container>
         <h1>Phonebook</h1>
         <ContactForm onSubmit={this.formSubmitHandler} />
         <h2>Contacts</h2>
@@ -70,7 +71,7 @@ class App extends Component {
           contacts={filteredContacts}
           onDeleteContact={this.deleteContact}
         />
-      </div>
+      </Container>
     );
   }
 }
