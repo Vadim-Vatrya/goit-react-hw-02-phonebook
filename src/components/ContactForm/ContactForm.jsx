@@ -36,22 +36,24 @@ handleChange = event => {
     return (
       <form onSubmit={this.handleSubmit}>
         <label htmlFor={this.contactNameId}>
+          Name
           <input
           type="text"
           name="name"
           value={this.state.name}
           onChange={this.handleChange}
           id ={this.contactNameId}
-          ></input>
+          />
         </label>
         <label htmlFor={this.contactNumberId}>
+          Number
           <input
           type="tel"
           name="number"
           value={this.state.number}
           onChange={this.handleChange}
           id={this.contactNumberId}
-          ></input>
+          />
         </label>
         <Button />
       </form>
