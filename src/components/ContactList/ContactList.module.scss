@@ -1,3 +1,10 @@
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  min-width: 200px;
+}
+
+
 .listItem:not(:last-child) {
   margin-bottom: 5px;
 }

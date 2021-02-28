@@ -59,8 +59,10 @@ class App extends Component {
   };
 
   render() {
+
     const { filter } = this.state;
     const filteredContacts = this.getFilteredContacts();
+    
     return (
       <Container>
         <h1>Phonebook</h1>
