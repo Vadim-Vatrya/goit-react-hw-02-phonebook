@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import shortId from 'shortid';
 
 
 import ContactForm from './components/ContactForm/ContactForm';
 import Filter from './components/Filter/Filter';
-import ContactList from './components/Filter/Filter'
+import ContactList from './components/ContactList/ContactList'
 
 
 
@@ -20,54 +20,54 @@ class App extends Component {
   };
 
   addContact = ({name, number}) => {
-    const {contacts} = this.state;
+    if (!name || !number) return;
 
-    if (name === '') {
-      alert(`Enter your name`)
-    };
-
-    
-    if (number === '') {
-      alert(`Enter your number`)
-    };
-
-    if (contacts.find(contact => contact.name === name)) {
-      alert(`${name} is already in contacts`)
-    };
-
-    const newContact = {
-      id: uuidv4,
-      name,
-      number,
+    const { contacts } = this.state;
+    const contactNames = contacts.map(contact => contact.name.toLowerCase());
+    if (contactNames.includes(name.toLowerCase())) {
+      alert(`${name} is already in contacts.`);
+      return;
     }
 
-    this.setState(({contacts}) => ({contacts: [newContact, ...contacts]}))
+    const contact = {
+      id: shortId.generate(),
+      name,
+      number,
+    };
 
-  }
+    this.setState(prevState => {
+      return {
+        contacts: [...prevState.contacts, contact],
+      };
+    });
+  };
 
-  changeFilter = ({target}) => {
-    const {value} = target;
-    this.setState({filter: value})
-  }
+  changeFilter = e => {
+    this.setState({ filter: e.target.value });
+  };
 
-  deleteContact = contactId => {
-    this.setState(({ contacts }) => ({
-      contacts: contacts.filter(contact => contact.id !== contactId),
+  deleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
     }));
-  }
+  };
 
   filterContacts = () => {
     const {filter, contacts} = this.state;
     const searchName = filter.toLowerCase();
-    return contacts.filter(({name}) =>
-     name.toLowerCase().includes(searchName),)
-
+    return contacts.filter(contact => 
+      contact.name.toLowerCase().includes(searchName),
+    );
   }
 
 
 
   render() {
+
     const {filter} = this.state;
+    const filteredContacts = this.filterContacts;
+    
+    
     return (
       <div>
         <h1>Phonebook</h1>
@@ -75,8 +75,9 @@ class App extends Component {
         <h2>Contacts</h2>
         <Filter value={filter} onChange={this.changeFilter} />
         <ContactList 
-        onDeleteContact={this.deleteContact}
-        filterContacts= {this.filterContacts}/>
+         filterContacts= {filteredContacts}
+        onDeleteContact={this.deleteContact}/>
+       
       </div>
       
     );

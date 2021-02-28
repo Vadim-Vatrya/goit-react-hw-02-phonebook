@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { v4 as uuidv4 } from 'uuid';
+
 import Button from '../Button/Button'
 
 class ContactForm extends Component {
@@ -15,9 +16,9 @@ handleChange = event => {
 }
 
   handleSubmit = event  => {
-    const {name, number} = this.state;
+    
     event.preventDefault();
-    this.props.onSubmit(name, number);
+    this.props.onSubmit(this.state);
     this.reset()
   }
 
@@ -25,34 +26,35 @@ handleChange = event => {
     this.setState({
       name: '',
       number: '',
+     
     });
   }
 
 
-  contactNameId = uuidv4();
-  contactNumberId = uuidv4();
-
+  
   render() {
+    const { name, number } = this.state;
+
     return (
       <form onSubmit={this.handleSubmit}>
-        <label htmlFor={this.contactNameId}>
+        <label >
           Name
           <input
           type="text"
           name="name"
-          value={this.state.name}
+          value={name}
           onChange={this.handleChange}
-          id ={this.contactNameId}
+         
           />
         </label>
-        <label htmlFor={this.contactNumberId}>
+        <label >
           Number
           <input
           type="tel"
           name="number"
-          value={this.state.number}
+          value={number}
           onChange={this.handleChange}
-          id={this.contactNumberId}
+          
           />
         </label>
         <Button />
@@ -61,5 +63,9 @@ handleChange = event => {
     )
   }
 }
+
+ContactForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default ContactForm;
