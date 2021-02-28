@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 
-import Button from '../Button/Button'
 
 class ContactForm extends Component {
   state = {
@@ -10,59 +9,57 @@ class ContactForm extends Component {
     number: '',
   };
 
-handleChange = event => {
-  const {name, value} = event.currentTarget;
-  this.setState({[name]: value});
-}
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({ [name]: value });
+  };
 
-  handleSubmit = event  => {
-    
-    event.preventDefault();
+  handleSubmit = e => {
+    e.preventDefault();
     this.props.onSubmit(this.state);
-    this.reset()
-  }
+    this.reset();
+  };
 
-  reset () {
-    this.setState({
-      name: '',
-      number: '',
-     
-    });
-  }
+  reset = () => {
+    this.setState({ name: '', number: '' });
+  };
 
-
-  
   render() {
     const { name, number } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} >
         <label >
           Name
           <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={this.handleChange}
-         
+            type="text"
+            value={name}
+            name="name"
+            
+            placeholder=" "
+            onChange={this.handleChange}
           />
         </label>
         <label >
           Number
           <input
-          type="tel"
-          name="number"
-          value={number}
-          onChange={this.handleChange}
+            type="tel"
+            value={number}
+            name="number"
           
+            placeholder=" "
+            onChange={this.handleChange}
           />
         </label>
-        <Button />
+        <button type="submit" >
+          Add contact
+        </button>
       </form>
-      
-    )
+    );
   }
 }
+
+
 
 ContactForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
